@@ -17,13 +17,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                bat 'mvn clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test'
             }
             post {
                 always {
@@ -34,18 +34,18 @@ pipeline {
 
         stage('Package') {
             steps {
-                sh 'mvn package -DskipTests'
+                bat 'mvn package -DskipTests'
             }
         }
 
         stage('Deploy') {
             steps {
-                sh '''
-                echo "Stopping old application if running..."
-                pkill -f petclinic || true
+                bat '''
+                echo Stopping old application if running...
+                taskkill /F /IM java.exe || echo No app running
 
-                echo "Starting application..."
-                nohup java -jar target/*.jar > app.log 2>&1 &
+                echo Starting Spring Petclinic...
+                start "" java -jar target\\*.jar
                 '''
             }
         }
