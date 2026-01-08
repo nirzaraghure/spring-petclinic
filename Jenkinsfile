@@ -17,7 +17,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Skip Checkstyle to avoid NoHttp error
                 bat 'mvn clean compile -Dcheckstyle.skip=true'
             }
         }
@@ -56,4 +55,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline exec
+            echo 'Pipeline executed successfully! Access the app at http://10.237.153.109:8081'
+        }
+        failure {
+            echo 'Pipeline failed! Check console output.'
+        }
+    }
+}
